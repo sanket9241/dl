@@ -1,0 +1,86 @@
+%pip install tensorflow
+%pip install "protobuf>=3.20,<7"
+pip install keras
+pip install theano
+
+//%pip install tensorflow keras scikit-learn matplotlib numpy
+// cd /d C:\DL\LP-IV_DL_Practicals
+dl_env\Scripts\activate
+jupyter notebook
+
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow.keras.datasets import mnist
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Flatten
+from tensorflow.keras.utils import to_categorical
+import tensorflow as tf
+print("TensorFlow Version:", tf.__version__)
+
+data = np.load(r"C:\Users\hp5cd\Desktop\DL_WS-master\datasets\mnist.npz")
+x_train = data["x_train"]
+y_train = data["y_train"]
+x_test = data["x_test"]
+y_test = data["y_test"]
+print(x_train.shape)
+print(x_test.shape)
+
+plt.imshow(x_train[0], cmap="gray")
+plt.title(f"Digit: {y_train[0]}")
+plt.axis("off")
+plt.show()
+
+num_classes = 10
+x_train_flat = x_train.reshape(len(x_train), 784).astype("float32") / 255.0
+x_test_flat = x_test.reshape(len(x_test), 784).astype("float32") / 255.0
+y_train_oh = to_categorical(y_train, num_classes)
+y_test_oh = to_categorical(y_test, num_classes)
+
+model = Sequential([
+    Dense(128, activation="relu"),
+    Dense(64, activation="relu"),
+    Dense(10, activation="softmax")
+])
+
+from tensorflow import keras
+model.compile(
+    optimizer=keras.optimizers.SGD(learning_rate=0.01, momentum=0.9),
+    loss="categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+history = model.fit(
+    x_train_flat,
+    y_train_oh,
+    epochs=10,
+    batch_size=128,
+    validation_split=0.1,
+    verbose=1
+)
+
+test_loss, test_acc = model.evaluate(
+    x_test_flat,
+    y_test_oh,
+    verbose=0
+)
+print("Test loss:", test_loss)
+print("Test accuracy:", test_acc)
+
+probs = model.predict(x_test_flat, verbose=0)
+y_pred = probs.argmax(axis=1)
+print("Predicted digit:", y_pred[0])
+print("Actual digit:", y_test[0])
+
+plt.figure(figsize=(12, 4))
+plt.subplot(1, 2, 1)
+plt.plot(history.history["loss"], label="Training Loss")
+plt.plot(history.history["val_loss"], label="Validation Loss")
+plt.title("Loss")
+plt.legend()
+plt.subplot(1, 2, 2)
+plt.plot(history.history["accuracy"], label="Training Accuracy")
+plt.plot(history.history["val_accuracy"], label="Validation Accuracy")
+plt.title("Accuracy")
+plt.legend()
+plt.tight_layout()
+plt.show()

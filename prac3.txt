@@ -1,0 +1,89 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from pathlib import Path
+import keras
+from keras import layers
+from sklearn.metrics import confusion_matrix, classification_report, ConfusionMatrixDisplay
+
+//os.makedirs("datasets", exist_ok=True)
+(x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
+with open("datasets/cifar-10-python.tar.gz", "wb") as f:
+    np.savez(f, x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test)
+print("Dataset saved! You can now run your original code.")// optional dataset
+
+DATA_DIR = Path("datasets")
+data = np.load(DATA_DIR / "cifar10.npz")
+x_train = data["x_train"]
+y_train = data["y_train"].reshape(-1)
+x_test = data["x_test"]
+y_test = data["y_test"].reshape(-1)
+print(x_train.shape)
+print(x_test.shape)
+
+x_train_f = x_train.astype("float32") / 255.0
+x_test_f = x_test.astype("float32") / 255.0
+x_val_f, y_val = x_train_f[-5000:], y_train[-5000:]
+x_tr_f, y_tr = x_train_f[:-5000], y_train[:-5000]
+
+model = keras.Sequential([
+    keras.Input(shape=(32, 32, 3)),
+    layers.Conv2D(32, 3, padding="same", activation="relu"),
+    layers.Conv2D(32, 3, padding="same", activation="relu"),
+    layers.MaxPooling2D(2),
+    layers.Conv2D(64, 3, padding="same", activation="relu"),
+    layers.Conv2D(64, 3, padding="same", activation="relu"),
+    layers.MaxPooling2D(2),
+    layers.Flatten(),
+    layers.Dense(128, activation="relu"),
+    layers.Dropout(0.4),
+    layers.Dense(10, activation="softmax")
+])
+
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=1e-3),
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+early_stop = keras.callbacks.EarlyStopping(
+    monitor="val_loss",
+    patience=3,
+    restore_best_weights=True
+)
+history = model.fit(
+    x_tr_f,
+    y_tr,
+    validation_data=(x_val_f, y_val),
+    epochs=12,
+    batch_size=64,
+    callbacks=[early_stop],
+    verbose=1
+)
+
+test_loss, test_acc = model.evaluate(
+    x_test_f, y_test, verbose=0
+)
+print("Test loss:", round(test_loss, 4))
+print("Test accuracy:", round(test_acc, 4))
+
+CLASS_NAMES = [
+    "airplane", "automobile", "bird", "cat", "deer",
+    "dog", "frog", "horse", "ship", "truck"
+]
+
+probs = model.predict(x_test_f, verbose=0)
+y_pred = probs.argmax(axis=1)
+cm = confusion_matrix(y_test, y_pred)
+ConfusionMatrixDisplay(
+    cm, display_labels=CLASS_NAMES
+).plot(xticks_rotation=45)
+plt.show()
+
+print(
+    classification_report(
+        y_test,
+        y_pred,
+        target_names=CLASS_NAMES,
+        digits=3
+    )
+)

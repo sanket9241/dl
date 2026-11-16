@@ -1,0 +1,97 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras import layers
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    confusion_matrix,
+    ConfusionMatrixDisplay,
+    roc_auc_score
+)
+
+df = pd.read_csv("datasets/ecg.csv", header=None)
+print("Dataset shape:", df.shape)
+df.head()
+
+raw = df.values
+X = raw[:, :-1].astype("float32")
+labels = raw[:, -1].astype(int)
+print("Input shape:", X.shape)
+print("Normal heartbeats:", (labels == 1).sum())
+print("Abnormal heartbeats:", (labels == 0).sum())
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    labels,
+    test_size=0.2,
+    random_state=21,
+    stratify=labels
+)
+
+train_min = X_train.min()
+train_max = X_train.max()
+X_train = (X_train - train_min) / (train_max - train_min)
+X_test = (X_test - train_min) / (train_max - train_min)
+
+normal_train = X_train[y_train == 1]
+normal_test = X_test[y_test == 1]
+anomaly_test = X_test[y_test == 0]
+print("Normal training data:", normal_train.shape)
+print("Normal testing data:", normal_test.shape)
+print("Abnormal testing data:", anomaly_test.shape)
+
+INPUT_DIM = X_train.shape[1]
+LATENT_DIM = 8
+encoder = keras.Sequential([
+    keras.Input(shape=(INPUT_DIM,)),
+    layers.Dense(32, activation="relu"),
+    layers.Dense(16, activation="relu"),
+    layers.Dense(LATENT_DIM, activation="relu")
+], name="encoder")
+encoder.summary()
+
+decoder = keras.Sequential([
+    keras.Input(shape=(LATENT_DIM,)),
+    layers.Dense(16, activation="relu"),
+    layers.Dense(32, activation="relu"),
+    layers.Dense(INPUT_DIM, activation="sigmoid")
+], name="decoder")
+decoder.summary()
+
+inputs = keras.Input(shape=(INPUT_DIM,))
+autoencoder = keras.Model(
+    inputs,
+    decoder(encoder(inputs))
+)
+
+autoencoder.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=0.001),
+    loss="mae",
+    metrics=["mse"]
+)
+
+history = autoencoder.fit(
+    normal_train,
+    normal_train,
+    epochs=40,
+    batch_size=64,
+    validation_split=0.2,
+    shuffle=True
+)
+
+reconstructed = autoencoder.predict(X_test, verbose=0)
+errors = np.mean(np.abs(X_test - reconstructed), axis=1)
+threshold = errors[y_test == 1].mean() + errors[y_test == 1].std()
+y_true = (y_test == 0).astype(int)
+y_pred = (errors > threshold).astype(int)
+print("Threshold:", round(threshold, 4))
+print("Accuracy:", accuracy_score(y_true, y_pred))
+print("Precision:", precision_score(y_true, y_pred))
+print("Recall:", recall_score(y_true, y_pred))
+print("F1 Score:", f1_score(y_true, y_pred))

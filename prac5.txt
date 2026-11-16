@@ -1,0 +1,89 @@
+import numpy as np
+import re
+from collections import Counter
+import keras
+from keras import layers
+
+from pathlib import Path
+text = Path("datasets/cbow_corpus.txt").read_text(encoding="utf-8")
+print(text[:300])
+
+def tokenize(sentence):
+    sentence = sentence.lower()
+    sentence = re.sub(r"[^a-z\s]", " ", sentence)
+    return sentence.split()
+sentences = [
+    tokenize(line) for line in text.split("\n") if line.strip()
+]
+all_words = [word for sentence in sentences for word in sentence]
+print("Sentences:", len(sentences))
+print("Total words:", len(all_words))
+
+freq = Counter(all_words)
+idx2word = ["<pad>"] + [w for w, _ in freq.most_common()]
+word2idx = {w: i for i, w in enumerate(idx2word)}
+VOCAB_SIZE = len(idx2word)
+print("Vocabulary size:", VOCAB_SIZE)
+
+encoded = [
+    [word2idx[word] for word in sentence]
+    for sentence in sentences
+]
+
+WINDOW = 2
+CONTEXT_LEN = 2 * WINDOW
+contexts = []
+targets = []
+for sent in encoded:
+    for i, target in enumerate(sent):
+        left = sent[max(0, i - WINDOW):i]
+        right = sent[i + 1:i + 1 + WINDOW]
+        ctx = left + right
+        ctx = ctx + [0] * (CONTEXT_LEN - len(ctx))
+        contexts.append(ctx)
+        targets.append(target)
+X = np.array(contexts, dtype="int32")
+y = np.array(targets, dtype="int32")
+print("X shape:", X.shape)
+print("y shape:", y.shape)
+
+EMBED_DIM = 50
+cbow = keras.Sequential([
+    keras.Input(shape=(CONTEXT_LEN,)),
+    layers.Embedding(VOCAB_SIZE, EMBED_DIM, mask_zero=True),
+    layers.GlobalAveragePooling1D(),
+    layers.Dense(VOCAB_SIZE, activation="softmax")
+])
+
+cbow.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=0.01),
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+history = cbow.fit(
+    X,
+    y,
+    epochs=60,
+    batch_size=64,
+    shuffle=True
+)
+
+def predict_target(context_words):
+    ids = [word2idx.get(w, 0) for w in context_words]
+    ids = ids[:CONTEXT_LEN]
+    ids = ids + [0] * (CONTEXT_LEN - len(ids))
+    probs = cbow.predict(np.array([ids]), verbose=0)[0]
+    best = probs.argmax()
+    return idx2word[best]
+
+tests = [
+    ["the", "compresses", "the"],
+    ["the", "learning", "controls", "how"],
+    ["a", "neural", "is", "made"],
+    ["gradient", "is", "the"]
+]
+for ctx in tests:
+    print("Context:", ctx)
+    print("Predicted word:", predict_target(ctx))
+    print()

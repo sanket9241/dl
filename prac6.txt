@@ -1,0 +1,81 @@
+import numpy as np
+import os
+import keras
+from keras import layers
+
+//os.makedirs("datasets", exist_ok=True)
+(x_train, y_train), (x_test, y_test) = keras.datasets.cifar10.load_data()
+with open("datasets/cifar-10-python.tar.gz", "wb") as f:
+    np.savez(f, x_train=x_train, y_train=y_train, x_test=x_test, y_test=y_test)
+print("Dataset saved! You can now run your original code.")//optional dataset
+
+data = np.load("datasets/cifar10.npz")
+x_train = data["x_train"][:10000]
+y_train = data["y_train"].reshape(-1)[:10000]
+x_test = data["x_test"][:2000]
+y_test = data["y_test"].reshape(-1)[:2000]
+print("Training:", x_train.shape)
+print("Testing:", x_test.shape)
+
+IMG_SIZE = 96
+base_model = keras.applications.MobileNetV2(
+    input_shape=(IMG_SIZE, IMG_SIZE, 3),
+    include_top=False,  weights="models/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_96_no_top.h5"
+)
+
+base_model.trainable = False
+
+inputs = keras.Input(shape=(32, 32, 3))
+x = layers.Resizing(IMG_SIZE, IMG_SIZE)(inputs)
+x = layers.Rescaling(1.0 / 127.5, offset=-1.0)(x)
+x = base_model(x, training=False)
+x = layers.GlobalAveragePooling2D()(x)
+x = layers.Dense(256, activation="relu")(x)
+x = layers.Dropout(0.3)(x)
+x = layers.Dense(128, activation="relu")(x)
+x = layers.Dropout(0.3)(x)
+outputs = layers.Dense(10, activation="softmax")(x)
+model = keras.Model(inputs, outputs)
+
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=0.001),
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+history_head = model.fit(
+    x_train.astype("float32"),
+    y_train,
+    validation_split=0.1,
+    epochs=5,
+    batch_size=64
+)
+
+x_test = x_test.astype("float32")
+loss_head, acc_head = model.evaluate(
+    x_test, y_test, verbose=0
+)
+print("Accuracy before fine-tuning:", round(acc_head, 4))
+
+FINE_TUNE_FROM = 100
+base_model.trainable = True
+for i, layer in enumerate(base_model.layers):
+    if i < FINE_TUNE_FROM or isinstance(layer, layers.BatchNormalization):
+        layer.trainable = False
+
+model.compile(
+    optimizer=keras.optimizers.Adam(learning_rate=0.00001),
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"]
+)
+
+history_fine = model.fit(
+    x_train.astype("float32"),
+    y_train,
+    validation_split=0.1,
+    epochs=3,
+    batch_size=64
+)
+
+loss, accuracy = model.evaluate(x_test, y_test, verbose=0)
+print("Final Test Accuracy:", round(accuracy, 4))

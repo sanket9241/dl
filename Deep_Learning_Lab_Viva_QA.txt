@@ -1,0 +1,636 @@
+DEEP LEARNING LABORATORY PRACTICE-IV VIVA QUESTIONS AND ANSWERS Simple
+language with examples
+
+============================================================ PRACTICAL
+1: STUDY OF DEEP LEARNING PACKAGES
+============================================================
+
+1.  What is Artificial Intelligence (AI)? Answer: AI is the ability of a
+    computer or machine to do tasks that normally need human
+    intelligence. Example: a voice assistant answering questions.
+
+2.  What is Machine Learning (ML)? Answer: Machine Learning is a part of
+    AI in which computers learn patterns from data instead of being
+    programmed for every situation. Example: an email system learning to
+    identify spam.
+
+3.  What is Deep Learning? Answer: Deep Learning is a part of Machine
+    Learning that uses neural networks with many layers to learn
+    patterns from large amounts of data. Example: recognizing a face in
+    a photo.
+
+4.  What is the difference between Machine Learning and Deep Learning?
+    Answer: Machine Learning often needs humans to select useful
+    features. Deep Learning can learn many features automatically using
+    multiple neural-network layers.
+
+5.  What is a neural network? Answer: A neural network is a computer
+    model inspired by the human brain. It contains connected units
+    called neurons arranged in layers. Example: a network that predicts
+    whether an image contains a cat or a dog.
+
+6.  What is a tensor? Answer: A tensor is a data structure that can
+    store numbers in one or more dimensions. A single number is a
+    scalar, a list is a vector, and a table is a matrix.
+
+7.  What is TensorFlow? Answer: TensorFlow is an open-source
+    deep-learning framework developed by Google. It uses tensors to
+    perform numerical operations and build and train neural networks.
+
+8.  What is Keras? Answer: Keras is a high-level deep-learning API used
+    to build and train neural networks easily. It can run with
+    TensorFlow as its backend.
+
+9.  What is Theano? Answer: Theano is a Python library for numerical
+    computation and symbolic differentiation. It can optimize
+    mathematical expressions and use GPU computation.
+
+10. What is PyTorch? Answer: PyTorch is an open-source deep-learning
+    framework with a Python-friendly interface. It supports tensor
+    computation, automatic differentiation and GPU acceleration.
+
+11. What is the use of Jupyter Notebook? Answer: Jupyter Notebook lets
+    us write and execute code in separate cells and see outputs, graphs
+    and explanations in one document.
+
+12. What is Anaconda? Answer: Anaconda is a Python distribution that
+    helps install Python and commonly used data-science packages. It
+    also provides tools such as Jupyter Notebook.
+
+13. How do you start Jupyter Notebook? Answer: Open the command prompt
+    or Anaconda Prompt and type: jupyter notebook
+
+14. What is a GPU? Answer: GPU means Graphics Processing Unit. It can
+    perform many calculations in parallel and can speed up deep-learning
+    training.
+
+15. What is an epoch? Answer: One epoch means the model has processed
+    the complete training dataset once.
+
+16. What is training? Answer: Training is the process in which a model
+    learns patterns by adjusting its weights using training data.
+
+17. Why is deep learning useful? Answer: It can learn complex patterns
+    from images, text, audio and other data. It is useful in image
+    recognition, speech recognition and language processing.
+
+============================================================ PRACTICAL
+2: FEEDFORWARD NEURAL NETWORK USING KERAS AND TENSORFLOW
+============================================================
+
+1.  What is a Feedforward Neural Network (FFNN)? Answer: It is a neural
+    network in which information moves from the input layer to hidden
+    layers and then to the output layer. It does not move backward in
+    the network during prediction.
+
+2.  What are the layers in an FFNN? Answer: The main layers are input
+    layer, one or more hidden layers, and output layer.
+
+3.  Give an example of an FFNN. Answer: An FFNN can take the pixel
+    values of a handwritten digit and predict whether it is 0, 1, 2, and
+    so on.
+
+4.  What is MNIST? Answer: MNIST is a dataset of handwritten digit
+    images from 0 to 9. Each image is 28 by 28 pixels.
+
+5.  What is CIFAR-10? Answer: CIFAR-10 is an image dataset containing 10
+    classes, such as airplane, car, bird, cat, deer, dog, frog, horse,
+    ship and truck.
+
+6.  What is the difference between MNIST and CIFAR-10? Answer: MNIST
+    contains grayscale handwritten digits. CIFAR-10 contains small
+    colour images of 10 object classes.
+
+7.  What is a pixel? Answer: A pixel is the smallest unit of a digital
+    image. Each pixel stores a colour or brightness value.
+
+8.  Why do we flatten an image? Answer: Flattening converts a 2D image
+    or 3D image array into a one-dimensional vector so it can be passed
+    to a Dense layer.
+
+9.  What is a Dense layer? Answer: A Dense layer is a fully connected
+    layer in which each neuron is connected to all outputs from the
+    previous layer.
+
+10. What is an activation function? Answer: An activation function
+    decides the output of a neuron and helps the network learn
+    non-linear patterns.
+
+11. What is ReLU? Answer: ReLU means Rectified Linear Unit. It returns
+    zero for negative values and the same value for positive values.
+    Example: ReLU(-3) = 0 and ReLU(5) = 5.
+
+12. What is Softmax? Answer: Softmax converts output scores into
+    probabilities whose total is 1. It is commonly used for multi-class
+    classification.
+
+13. What is a loss function? Answer: A loss function measures how far
+    the model’s prediction is from the correct answer. Training tries to
+    reduce this loss.
+
+14. What is an optimizer? Answer: An optimizer updates the model’s
+    weights to reduce the loss.
+
+15. What is SGD? Answer: SGD means Stochastic Gradient Descent. It
+    updates model weights using gradients calculated from training
+    examples or batches.
+
+16. What is batch size? Answer: Batch size is the number of training
+    samples processed before the model updates its weights. Example:
+    batch size 32 means 32 samples are processed in one batch.
+
+17. What is an epoch? Answer: An epoch is one complete pass through all
+    training samples.
+
+18. What is accuracy? Answer: Accuracy is the fraction or percentage of
+    predictions that are correct. Example: 90 correct predictions out of
+    100 gives 90% accuracy.
+
+19. What is overfitting? Answer: Overfitting happens when a model learns
+    the training data too closely and performs poorly on new data.
+    Example: it gets very high training accuracy but low test accuracy.
+
+20. What is the purpose of testing data? Answer: Testing data checks how
+    well the trained model performs on data it has not seen during
+    training.
+
+21. Why do we normalize image data? Answer: Normalization scales pixel
+    values to a smaller range, often 0 to 1. For example, divide pixel
+    values by 255. This can make training more stable.
+
+22. What is the purpose of model.compile()? Answer: It sets the
+    optimizer, loss function and metrics before training.
+
+23. What is the purpose of model.fit()? Answer: It trains the model
+    using the training data.
+
+24. What is the purpose of model.evaluate()? Answer: It evaluates the
+    model on test or validation data and returns values such as loss and
+    accuracy.
+
+25. What is the purpose of model.predict()? Answer: It uses the trained
+    model to make predictions for new input data.
+
+============================================================ PRACTICAL
+3: CNN IMAGE CLASSIFICATION
+============================================================
+
+1.  What is a Convolutional Neural Network (CNN)? Answer: CNN is a
+    deep-learning model mainly used for images. It learns features such
+    as edges, shapes and objects from images.
+
+2.  Why is CNN suitable for image classification? Answer: CNN can learn
+    spatial patterns in images using filters, while keeping information
+    about nearby pixels.
+
+3.  What is convolution? Answer: Convolution is an operation in which a
+    small filter moves over an image and calculates values to detect
+    features.
+
+4.  What is a filter or kernel? Answer: A filter is a small matrix of
+    numbers that moves over an image to detect features such as edges or
+    textures.
+
+5.  What is a feature map? Answer: A feature map is the output produced
+    when a filter is applied to an image.
+
+6.  What is pooling? Answer: Pooling reduces the size of a feature map
+    while keeping important information.
+
+7.  What is Max Pooling? Answer: Max Pooling selects the largest value
+    from a small region. Example: from [1, 5, 2, 3], max pooling returns
+    5.
+
+8.  What is Flatten? Answer: Flatten converts multi-dimensional feature
+    maps into a one-dimensional vector before passing them to Dense
+    layers.
+
+9.  What is Dropout? Answer: Dropout temporarily disables some neurons
+    during training. It helps reduce overfitting.
+
+10. What is the difference between Dense and Convolution layers? Answer:
+    A Dense layer connects each neuron to all previous outputs. A
+    Convolution layer applies filters to local image regions to learn
+    visual features.
+
+11. What is RGB? Answer: RGB stands for Red, Green and Blue. A colour
+    image usually has three channels, one for each colour.
+
+12. What is a grayscale image? Answer: A grayscale image contains shades
+    of grey and usually has one channel instead of three colour
+    channels.
+
+13. What is image classification? Answer: Image classification assigns a
+    label to an image. Example: deciding whether an image shows a cat or
+    a dog.
+
+14. What is the role of the output layer in image classification?
+    Answer: It produces scores or probabilities for the possible
+    classes. Softmax is often used for multi-class classification.
+
+15. What is the general flow of a CNN? Answer: Input image ->
+    convolution -> activation -> pooling -> flatten -> Dense layer ->
+    output class.
+
+16. Why do we use multiple convolution layers? Answer: Early layers can
+    learn simple features such as edges. Deeper layers can learn more
+    complex features such as shapes and object parts.
+
+17. What is data augmentation? Answer: Data augmentation creates
+    modified training images, for example by flipping or rotating them,
+    to help the model generalize.
+
+18. What is the difference between classification and detection? Answer:
+    Classification tells what object or class is in an image. Object
+    detection also identifies where objects are, usually with bounding
+    boxes.
+
+============================================================ PRACTICAL
+4: AUTOENCODER FOR ANOMALY DETECTION
+============================================================
+
+1.  What is an Autoencoder? Answer: An Autoencoder is a neural network
+    that learns to compress input data and then reconstruct it.
+
+2.  What are the two main parts of an Autoencoder? Answer: Encoder and
+    Decoder. The Encoder compresses the input. The Decoder reconstructs
+    the input from the compressed representation.
+
+3.  What is an Encoder? Answer: The Encoder converts high-dimensional
+    input data into a smaller representation called latent
+    representation.
+
+4.  What is a Decoder? Answer: The Decoder takes the latent
+    representation and tries to reconstruct the original input.
+
+5.  What is a bottleneck layer? Answer: It is the narrow middle part of
+    an Autoencoder where the input is compressed into fewer values.
+
+6.  What is latent space? Answer: Latent space is the smaller
+    representation of the input learned by the Encoder.
+
+7.  What is reconstruction? Answer: Reconstruction is the output
+    produced by the Decoder to reproduce the original input.
+
+8.  What is reconstruction error? Answer: It measures the difference
+    between the original input and the reconstructed output. A large
+    error can indicate an unusual sample.
+
+9.  How does an Autoencoder detect anomalies? Answer: Train it mainly on
+    normal data. It learns to reconstruct normal samples well. Unusual
+    samples may have a larger reconstruction error and can be marked as
+    anomalies.
+
+10. What is a threshold in anomaly detection? Answer: A threshold is a
+    chosen error limit. If reconstruction error is above the threshold,
+    the sample is flagged as an anomaly.
+
+11. What dataset is used in this practical? Answer: The practical uses
+    ECG data stored in ecg.csv.
+
+12. What do labels 0 and 1 mean in the practical ECG dataset? Answer:
+    Label 0 represents an anomaly and label 1 represents a normal
+    observation.
+
+13. What is ECG? Answer: ECG means Electrocardiogram. It records the
+    electrical activity of the heart.
+
+14. Why train the Autoencoder on normal data? Answer: The model learns
+    the pattern of normal observations. It may reconstruct unusual
+    observations poorly, producing higher error.
+
+15. What is MAE? Answer: MAE means Mean Absolute Error. It calculates
+    the average absolute difference between actual and reconstructed
+    values.
+
+16. What is MSE? Answer: MSE means Mean Squared Error. It calculates the
+    average squared difference between actual and predicted values.
+
+17. Which optimizer is used in the practical? Answer: Adam optimizer is
+    used.
+
+18. What is Adam? Answer: Adam is an optimization algorithm that adjusts
+    model weights using estimates of gradients and their moving
+    averages.
+
+19. What is the input size in the provided ECG example? Answer: Each ECG
+    record has 140 features, so the input shape for one sample is 140
+    values.
+
+20. What is the latent dimension in the provided example? Answer: The
+    latent dimension is 8. The Encoder compresses 140 input values into
+    8 values.
+
+21. What does model.fit(normal_train, normal_train) mean? Answer: The
+    input and target are the same because the Autoencoder is trained to
+    reconstruct its own input.
+
+22. What is the difference between normal and anomalous data? Answer:
+    Normal data follows the expected pattern. Anomalous data is unusual
+    or different from that pattern.
+
+============================================================ PRACTICAL
+5: CONTINUOUS BAG OF WORDS (CBOW)
+============================================================
+
+1.  What is NLP? Answer: NLP means Natural Language Processing. It helps
+    computers work with human language, such as text and speech.
+
+2.  What is Word2Vec? Answer: Word2Vec is a method for learning
+    numerical vector representations of words from their surrounding
+    context.
+
+3.  What is CBOW? Answer: CBOW means Continuous Bag of Words. It
+    predicts a target word using the surrounding context words.
+
+4.  Give an example of CBOW. Answer: In the sentence “The cat drinks
+    milk”, if “The”, “cat”, “milk” and nearby words are given as
+    context, the model tries to predict the missing target word
+    “drinks”.
+
+5.  What is a context word? Answer: A context word is a nearby word used
+    to help predict the target word.
+
+6.  What is a target word? Answer: The target word is the word that the
+    model is trained to predict.
+
+7.  What is window size? Answer: Window size decides how many nearby
+    words are considered around the target word. In the practical,
+    window size is 2.
+
+8.  What is tokenization? Answer: Tokenization splits text into smaller
+    units, usually words or tokens.
+
+9.  What is vocabulary? Answer: Vocabulary is the set of unique words
+    known to the model.
+
+10. What is a word embedding? Answer: A word embedding is a list of
+    numbers representing a word. Words used in similar contexts may have
+    similar vectors.
+
+11. Why are words converted into numbers? Answer: Neural networks work
+    with numerical data, so words are mapped to integer IDs and then to
+    vectors.
+
+12. What is padding? Answer: Padding adds extra values, often zeros, so
+    sequences have the same length.
+
+13. What is the Embedding layer? Answer: It maps each word ID to a
+    trainable dense vector.
+
+14. What is GlobalAveragePooling1D used for in the CBOW model? Answer:
+    It averages the context-word vectors to create one vector
+    representing the context.
+
+15. Why is Softmax used in CBOW? Answer: Softmax produces a probability
+    for each possible vocabulary word as the predicted target.
+
+16. What is the difference between CBOW and Skip-gram? Answer: CBOW
+    predicts a target word from context words. Skip-gram predicts
+    surrounding context words from a target word.
+
+17. Which optimizer is used in the provided CBOW practical? Answer: Adam
+    optimizer is used.
+
+18. Which loss function is used in the provided CBOW practical? Answer:
+    Sparse categorical cross-entropy is used because the target is
+    represented as a class ID.
+
+19. What is the embedding dimension in the provided practical? Answer:
+    The embedding dimension is 50, so each word is represented by 50
+    numbers.
+
+20. What is the context length in the provided practical? Answer: The
+    context length is 4.
+
+21. How many epochs are used in the provided practical? Answer: 60
+    epochs.
+
+22. What is the batch size in the provided practical? Answer: 64.
+
+23. What does mask_zero=True mean in the Embedding layer? Answer: It
+    tells the model to treat zero values used for padding as padding
+    rather than as an ordinary word.
+
+24. What does the CBOW model learn? Answer: It learns word
+    representations and relationships between words based on their
+    surrounding context.
+
+25. How can we check similar words after training? Answer: We can use
+    the learned word vectors and compare their similarity. The practical
+    demonstrates finding words similar to “virus”.
+
+============================================================ PRACTICAL
+6: OBJECT DETECTION USING TRANSFER LEARNING
+============================================================
+
+1.  What is transfer learning? Answer: Transfer learning means using a
+    model already trained on a large dataset and adapting it to a new
+    task.
+
+2.  Why do we use transfer learning? Answer: It saves training time and
+    can work well when we have a smaller dataset.
+
+3.  What is a pre-trained model? Answer: A pre-trained model is a model
+    that has already learned useful features from a previous dataset.
+
+4.  What is Inception-v3? Answer: Inception-v3 is a pre-trained
+    Convolutional Neural Network developed by Google for image
+    recognition.
+
+5.  How deep is Inception-v3 in the provided manual? Answer: The manual
+    describes Inception-v3 as 48 layers deep.
+
+6.  On which dataset was the pre-trained Inception-v3 model trained?
+    Answer: It was trained on the ImageNet database, which contains more
+    than one million images.
+
+7.  What is ImageNet? Answer: ImageNet is a large image database used
+    for training and evaluating image-recognition models.
+
+8.  What is the input image size of Inception-v3? Answer: The input size
+    is 299 by 299 pixels.
+
+9.  How many object categories can the pre-trained model classify in the
+    manual’s description? Answer: The manual says it can classify images
+    into 1000 object categories.
+
+10. What is feature extraction? Answer: Feature extraction uses the
+    pre-trained network to identify useful patterns such as edges,
+    textures and shapes from images.
+
+11. What does freezing layers mean? Answer: Freezing layers means
+    keeping their weights unchanged during training.
+
+12. Why do we freeze lower convolution layers? Answer: These layers
+    already learn general image features, so keeping them fixed can save
+    time and reduce the number of parameters that need training.
+
+13. What is fine-tuning? Answer: Fine-tuning means unfreezing some
+    pre-trained layers and training them further on the new dataset.
+
+14. What is a custom classifier? Answer: It is a new classification part
+    added to the pre-trained model for the classes in our own task.
+
+15. What is the role of Softmax? Answer: Softmax converts class scores
+    into probabilities for the possible classes.
+
+16. What is the difference between feature extraction and fine-tuning?
+    Answer: In feature extraction, the pre-trained layers are kept
+    frozen. In fine-tuning, some of those layers are unfrozen and
+    updated using the new data.
+
+17. What is the difference between image classification and object
+    detection? Answer: Classification predicts the class of an image.
+    Object detection predicts the classes and locations of objects,
+    usually using bounding boxes.
+
+18. What does RGB mode mean? Answer: RGB mode means the image has three
+    colour channels: red, green and blue.
+
+19. Why must images be resized before passing them to Inception-v3?
+    Answer: The model expects images of a fixed input size, 299 by 299
+    pixels.
+
+20. What is a checkpoint file? Answer: A checkpoint file stores the
+    saved weights of a trained model so they can be loaded later.
+
+============================================================ COMMON VIVA
+QUESTIONS ============================================================
+
+1.  What is the difference between AI, ML and DL? Answer: AI is the
+    broad field of making machines perform intelligent tasks. ML is a
+    part of AI where machines learn from data. DL is a part of ML that
+    uses neural networks with many layers.
+
+2.  What is a dataset? Answer: A dataset is a collection of examples
+    used for training, validation or testing.
+
+3.  What is the difference between training and testing? Answer:
+    Training data is used to teach the model. Testing data is used to
+    check its performance on unseen examples.
+
+4.  What is validation data? Answer: Validation data is used during
+    model development to check performance and help choose model
+    settings.
+
+5.  What are weights? Answer: Weights are adjustable numerical values in
+    a neural network that are learned during training.
+
+6.  What is a bias? Answer: Bias is an additional adjustable value added
+    to a neuron’s weighted input.
+
+7.  What is backpropagation? Answer: Backpropagation calculates how the
+    loss changes with respect to model weights so the optimizer can
+    update them.
+
+8.  What is a hyperparameter? Answer: A hyperparameter is a setting
+    chosen before or during training, such as learning rate, batch size
+    or number of epochs.
+
+9.  What is learning rate? Answer: Learning rate controls how large the
+    weight updates are during training.
+
+10. What happens if the learning rate is too high? Answer: Training may
+    become unstable and may fail to reach a good solution.
+
+11. What happens if the learning rate is too low? Answer: Training may
+    become very slow.
+
+12. What is a model? Answer: A model is the learned mathematical system
+    that makes predictions from input data.
+
+13. What is classification? Answer: Classification assigns an input to
+    one of a set of categories. Example: classifying an email as spam or
+    not spam.
+
+14. What is regression? Answer: Regression predicts a numerical value.
+    Example: predicting the price of a house.
+
+15. What is a confusion matrix? Answer: It is a table that compares
+    actual classes with predicted classes and shows correct and
+    incorrect predictions.
+
+16. What is generalization? Answer: Generalization is the ability of a
+    trained model to perform well on new, unseen data.
+
+17. What is underfitting? Answer: Underfitting happens when a model is
+    too simple or insufficiently trained to learn the important
+    patterns, so it performs poorly even on training data.
+
+18. What is the difference between overfitting and underfitting? Answer:
+    Overfitting learns the training data too closely and performs poorly
+    on new data. Underfitting fails to learn the important patterns even
+    in the training data.
+
+19. Why do we use libraries such as NumPy and Pandas? Answer: NumPy is
+    used for numerical arrays and calculations. Pandas is used to load,
+    organize and analyze tabular data.
+
+20. What is the purpose of Matplotlib? Answer: Matplotlib is used to
+    create graphs and plots, such as training loss and accuracy curves.
+
+============================================================ QUICK CODE
+COMMAND REVISION
+============================================================
+
+import tensorflow as tf Meaning: Imports the TensorFlow library.
+
+from tensorflow import keras Meaning: Imports the Keras API available
+through TensorFlow.
+
+model = keras.Sequential([…]) Meaning: Creates a model in which layers
+are arranged one after another.
+
+model.compile(optimizer=…, loss=…, metrics=[…]) Meaning: Configures the
+model for training.
+
+model.fit(x_train, y_train, epochs=…, batch_size=…) Meaning: Trains the
+model using the training data.
+
+model.evaluate(x_test, y_test) Meaning: Evaluates the model on test
+data.
+
+model.predict(new_data) Meaning: Predicts outputs for new data.
+
+layers.Dense( units, activation=“relu” ) Meaning: Creates a fully
+connected layer with ReLU activation.
+
+layers.Conv2D(filters, kernel_size, activation=“relu”) Meaning: Creates
+a 2D convolution layer for image features.
+
+layers.MaxPooling2D(pool_size=(2, 2)) Meaning: Reduces the spatial size
+of feature maps by taking maximum values.
+
+layers.Flatten() Meaning: Converts feature maps into a one-dimensional
+vector.
+
+layers.Dropout(rate) Meaning: Randomly disables a fraction of units
+during training to help reduce overfitting.
+
+============================================================ LAST-MINUTE
+REVISION ============================================================
+
+1.  Deep Learning uses neural networks with multiple layers.
+2.  TensorFlow and PyTorch are deep-learning frameworks.
+3.  Keras makes neural-network building easier.
+4.  Jupyter Notebook runs code cell by cell.
+5.  FFNN sends information from input towards output.
+6.  MNIST contains handwritten digits from 0 to 9.
+7.  CIFAR-10 contains 10 image classes.
+8.  ReLU is commonly used in hidden layers.
+9.  Softmax is commonly used for multi-class output.
+10. CNN uses convolution and pooling to learn image features.
+11. Flatten changes feature maps into a vector.
+12. Dropout helps reduce overfitting.
+13. An Autoencoder contains an Encoder and a Decoder.
+14. Reconstruction error can be used to identify anomalies.
+15. In the ECG practical, label 0 means anomaly and label 1 means
+    normal.
+16. CBOW predicts a target word from surrounding context words.
+17. Word embeddings represent words as numerical vectors.
+18. Transfer learning reuses a pre-trained model.
+19. Inception-v3 expects 299 x 299 images in the manual.
+20. Freezing layers keeps their weights unchanged during training.
+
+END OF VIVA NOTES

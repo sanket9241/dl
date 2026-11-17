@@ -1,0 +1,521 @@
+AI PRACTICALS ON UBUNTU - COMPLETE SETUP AND RUNNING GUIDE
+===========================================================
+
+This guide covers the Ubuntu setup and the workflow for these three practicals:
+
+1. Practical 4: ECG Anomaly Detection using Autoencoder
+2. Practical 5: CBOW Word Embedding Model
+3. Practical 6: Transfer Learning using MobileNetV2
+
+IMPORTANT
+---------
+The practical PDFs contain notebook code, but they expect separate local data files.
+You must obtain the correct dataset/weights files from your teacher, college, or the
+original practical resource package. Do not create empty files or rename unrelated
+files to satisfy the checks.
+
+Required files:
+- Practical 4: datasets/ecg.csv
+- Practical 5: datasets/cbow_corpus.txt
+- Practical 6: datasets/cifar10.npz
+- Practical 6: models/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_96_no_top.h5
+
+The Practical 4 PDF shows an ECG data shape of (4998, 141).
+The Practical 6 notebook uses 10,000 training images and 2,000 test images.
+The Practical 5 corpus is read as UTF-8 text from cbow_corpus.txt.
+
+------------------------------------------------------------
+PART A - PREPARE UBUNTU
+------------------------------------------------------------
+
+STEP 1: Open Terminal
+---------------------
+Press Ctrl + Alt + T.
+
+STEP 2: Update Ubuntu
+--------------------
+Run:
+
+sudo apt update
+sudo apt upgrade -y
+
+STEP 3: Install Python tools and system dependencies
+----------------------------------------------------
+Run:
+
+sudo apt install python3 python3-pip python3-venv python3-dev build-essential -y
+
+STEP 4: Check Python version
+----------------------------
+Run:
+
+python3 --version
+pip3 --version
+
+TensorFlow 2.21 supports Python 3.10 to 3.13. If your Ubuntu Python is
+outside this range, check TensorFlow's current installation requirements before
+changing your system Python. Do not remove or replace Ubuntu's system Python.
+
+------------------------------------------------------------
+PART B - CREATE A PROJECT FOLDER
+------------------------------------------------------------
+
+STEP 5: Create the main folder
+------------------------------
+Run:
+
+mkdir -p ~/AI_Practicals
+cd ~/AI_Practicals
+
+STEP 6: Create a Python virtual environment
+--------------------------------------------
+Run:
+
+python3 -m venv .venv
+
+STEP 7: Activate the virtual environment
+-----------------------------------------
+Run:
+
+source .venv/bin/activate
+
+When activated, the terminal usually shows (.venv) at the beginning of the line.
+Activate it again whenever you open a new terminal for this project.
+
+STEP 8: Upgrade pip
+-------------------
+Run:
+
+python -m pip install --upgrade pip
+
+------------------------------------------------------------
+PART C - INSTALL REQUIRED PYTHON PACKAGES
+------------------------------------------------------------
+
+STEP 9: Install libraries
+-------------------------
+With (.venv) activated, run:
+
+python -m pip install tensorflow keras numpy pandas matplotlib scikit-learn jupyter notebook ipykernel
+
+This installs the main libraries used by the three practicals:
+- TensorFlow and Keras: deep learning models
+- NumPy and Pandas: numerical and tabular data
+- Matplotlib: graphs and plots
+- Scikit-learn: data splitting, PCA and evaluation metrics
+- Jupyter Notebook: run code cell by cell
+- ipykernel: connect this virtual environment to Jupyter
+
+STEP 10: Register the Jupyter kernel
+------------------------------------
+Run:
+
+python -m ipykernel install --user --name ai-practicals --display-name "Python (AI Practicals)"
+
+STEP 11: Verify installation
+-----------------------------
+Run:
+
+python -c "import tensorflow as tf, keras, numpy, pandas, matplotlib, sklearn; print('TensorFlow:', tf.__version__); print('Keras:', keras.__version__); print('NumPy:', numpy.__version__); print('All imports successful')"
+
+If this command prints the versions and 'All imports successful', the basic setup is ready.
+
+------------------------------------------------------------
+PART D - CREATE THE REQUIRED FOLDER STRUCTURE
+------------------------------------------------------------
+
+STEP 12: Create folders
+-----------------------
+Run:
+
+mkdir -p datasets models
+
+Your project folder should look like this:
+
+AI_Practicals/
+|
+|-- .venv/
+|-- datasets/
+|   |-- ecg.csv
+|   |-- cbow_corpus.txt
+|   |-- cifar10.npz
+|
+|-- models/
+|   |-- mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_96_no_top.h5
+|
+|-- Practical_4_ECG_Autoencoder.ipynb
+|-- Practical_5_CBOW_Word_Embedding.ipynb
+|-- Practical_6_MobileNetV2_Transfer_Learning.ipynb
+
+The three notebook names above are suggested names. You may use different names.
+Keep the datasets and models folders beside the notebooks.
+
+STEP 13: Copy the data files into the correct folders
+-----------------------------------------------------
+Copy the files supplied by your teacher/original practical package:
+
+- ecg.csv -> ~/AI_Practicals/datasets/
+- cbow_corpus.txt -> ~/AI_Practicals/datasets/
+- cifar10.npz -> ~/AI_Practicals/datasets/
+- mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_96_no_top.h5
+  -> ~/AI_Practicals/models/
+
+You can use Ubuntu Files (file manager) to copy and paste the files.
+Do not unzip a file unless the supplied package is actually a ZIP archive.
+If your teacher supplied one ZIP file, extract it and locate the exact files above.
+
+STEP 14: Check whether the files exist
+--------------------------------------
+Run:
+
+ls -lh datasets
+ls -lh models
+
+Expected filenames:
+datasets/ecg.csv
+datasets/cbow_corpus.txt
+datasets/cifar10.npz
+models/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_96_no_top.h5
+
+If any file is missing, ask your teacher for that exact file or the complete
+offline practical data package. The PDFs alone do not provide all these files.
+
+------------------------------------------------------------
+PART E - START JUPYTER NOTEBOOK
+------------------------------------------------------------
+
+STEP 15: Make sure you are in the project folder
+------------------------------------------------
+Run:
+
+cd ~/AI_Practicals
+source .venv/bin/activate
+
+STEP 16: Start Jupyter Notebook
+--------------------------------
+Run:
+
+jupyter notebook
+
+Jupyter will open in your browser. If it does not open automatically, copy the
+local URL printed in Terminal and paste it into your browser. Keep the terminal
+open while using Jupyter.
+
+STEP 17: Create a notebook
+--------------------------
+1. In Jupyter, open the AI_Practicals folder.
+2. Click New.
+3. Select Python (AI Practicals).
+4. Rename the notebook using the suggested name for the practical.
+5. Copy the code from the corresponding practical PDF into notebook cells.
+6. Run a cell using Shift + Enter.
+7. Run the cells in order, from top to bottom.
+
+IMPORTANT: Select the kernel named "Python (AI Practicals)".
+Do not run the notebook from a different working folder. The code uses relative
+paths such as Path("datasets"), so the notebook must run with AI_Practicals as
+its working directory.
+
+------------------------------------------------------------
+PART F - PRACTICAL 4: ECG ANOMALY DETECTION USING AUTOENCODER
+------------------------------------------------------------
+
+Required file:
+datasets/ecg.csv
+
+STEP 1: Confirm the dataset
+---------------------------
+In a notebook cell, run:
+
+from pathlib import Path
+print("Dataset exists:", Path("datasets/ecg.csv").exists())
+
+It should print True.
+
+STEP 2: Run the imports and common setup from the PDF
+-----------------------------------------------------
+The practical uses:
+- os and pathlib.Path
+- NumPy, Pandas and Matplotlib
+- TensorFlow, Keras and Keras layers
+- train_test_split
+- classification metrics such as accuracy, precision, recall, F1,
+  confusion matrix, ROC AUC and ROC curve
+- PCA
+
+STEP 3: Load the ECG dataset
+-----------------------------
+The PDF loads the file with no header row:
+
+df = pd.read_csv("datasets/ecg.csv", header=None)
+
+The expected shape is 4998 rows and 141 columns.
+The first 140 columns are heartbeat signal values. The last column is the label.
+
+STEP 4: Prepare and inspect the data
+------------------------------------
+Run the PDF cells that:
+- separate the 140 signal values from the final label column
+- identify normal beats (label 1) and abnormal beats (label 0)
+- plot sample normal and abnormal heartbeats
+- split training and testing data
+- normalize the signal values
+
+STEP 5: Build the Autoencoder
+-----------------------------
+Run the model-building cells from the PDF.
+The encoder compresses each 140-value heartbeat into an 8-value latent vector.
+The decoder reconstructs the heartbeat back to 140 values.
+The full autoencoder combines the encoder and decoder.
+
+STEP 6: Train the model
+-----------------------
+Run the training cell from the PDF. The shown practical trains the autoencoder
+using normal training heartbeats and uses normal test heartbeats for validation.
+
+STEP 7: Detect anomalies
+------------------------
+Run the PDF cells that:
+- calculate reconstruction error using MAE
+- calculate a threshold from training reconstruction errors
+- compare normal and abnormal reconstruction errors
+- classify test heartbeats using the threshold
+
+STEP 8: Evaluate and view results
+---------------------------------
+Run the remaining cells to display:
+- training and validation loss
+- heartbeat reconstruction plots
+- reconstruction-error histogram
+- accuracy, precision, recall and F1 score
+- ROC AUC and confusion matrix
+
+------------------------------------------------------------
+PART G - PRACTICAL 5: CBOW WORD EMBEDDING MODEL
+------------------------------------------------------------
+
+Required file:
+datasets/cbow_corpus.txt
+
+STEP 1: Confirm the corpus file
+-------------------------------
+Run:
+
+from pathlib import Path
+print("Corpus exists:", Path("datasets/cbow_corpus.txt").exists())
+
+It should print True.
+
+STEP 2: Run imports and common setup from the PDF
+------------------------------------------------
+The practical uses:
+- os, pathlib.Path and regular expressions
+- Counter from collections
+- NumPy and Matplotlib
+- TensorFlow, Keras and Keras layers
+- PCA from scikit-learn
+
+STEP 3: Read the text corpus
+----------------------------
+The PDF reads:
+
+text = (DATA_DIR / "cbow_corpus.txt").read_text(encoding="utf-8")
+
+It then tokenizes the text by converting it to lowercase and removing punctuation
+and digits.
+
+STEP 4: Create the vocabulary
+-----------------------------
+Run the PDF cells to:
+- split the text into sentences
+- tokenize words
+- count word frequencies
+- create word-to-index and index-to-word mappings
+- reserve index 0 for the padding token
+
+The PDF reports 313 unique words and a vocabulary size of 314 including padding.
+
+STEP 5: Prepare CBOW training examples
+--------------------------------------
+Run the cells in the PDF that create context-word input examples and target words.
+The context length used in the model is 4.
+
+STEP 6: Build the CBOW model
+----------------------------
+Run the model cells from the PDF.
+The model uses:
+- Embedding dimension: 50
+- Vocabulary size: 314
+- GlobalAveragePooling1D to average context embeddings
+- Dense softmax output to predict the target word
+
+STEP 7: Train the model
+-----------------------
+Run the compile and training cells from the PDF.
+The practical uses Adam optimizer, sparse categorical cross-entropy loss,
+accuracy as a metric, 60 epochs and batch size 64.
+
+STEP 8: Inspect word embeddings
+-------------------------------
+Run the remaining PDF cells to inspect learned vectors and use PCA for
+visualization. The PDF writes:
+- p5_vectors.tsv
+- p5_metadata.tsv
+
+These output files are generated by the practical code.
+
+------------------------------------------------------------
+PART H - PRACTICAL 6: TRANSFER LEARNING USING MOBILENETV2
+------------------------------------------------------------
+
+Required files:
+datasets/cifar10.npz
+models/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_96_no_top.h5
+
+STEP 1: Confirm both files
+--------------------------
+Run:
+
+from pathlib import Path
+print("CIFAR-10 dataset:", Path("datasets/cifar10.npz").exists())
+print("MobileNetV2 weights:", Path("models/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_96_no_top.h5").exists())
+
+Both should print True.
+
+STEP 2: Run imports and common setup from the PDF
+------------------------------------------------
+The practical uses:
+- os and pathlib.Path
+- NumPy and Matplotlib
+- TensorFlow, Keras and Keras layers
+- confusion_matrix, ConfusionMatrixDisplay and classification_report
+
+STEP 3: Load CIFAR-10 data
+--------------------------
+The notebook loads datasets/cifar10.npz.
+It uses the first 10,000 training images and first 2,000 test images.
+The original CIFAR-10 images are 32 x 32 pixels with 3 colour channels.
+
+STEP 4: Load MobileNetV2
+------------------------
+The PDF loads MobileNetV2 using the local weights file.
+It uses input size 96 x 96 and include_top=False.
+
+STEP 5: Prepare the model
+-------------------------
+Run the PDF cells that:
+- resize input images from 32 x 32 to 96 x 96
+- scale pixel values to the range [-1, 1]
+- load the pre-trained MobileNetV2 base model
+- freeze the pre-trained base model
+- add pooling and new dense classifier layers
+- create the final 10-class output layer
+
+STEP 6: Train the classifier head
+---------------------------------
+Run the compile and training cells from the PDF.
+The shown practical trains the classifier head for 5 epochs with batch size 64.
+
+STEP 7: Fine-tuning and evaluation
+----------------------------------
+Continue with the remaining cells in the PDF in their given order.
+They evaluate the model and display the classification results, including
+confusion matrix and classification report.
+
+------------------------------------------------------------
+PART I - HOW TO STOP AND RESTART
+------------------------------------------------------------
+
+To stop Jupyter:
+1. Go to the Terminal where Jupyter is running.
+2. Press Ctrl + C.
+3. If asked to confirm shutdown, type y and press Enter.
+
+To restart on another day:
+1. Open Terminal.
+2. Run:
+
+cd ~/AI_Practicals
+source .venv/bin/activate
+jupyter notebook
+
+3. Open the required notebook in the browser.
+4. Select the Python (AI Practicals) kernel if needed.
+
+To deactivate the virtual environment after finishing:
+deactivate
+
+------------------------------------------------------------
+PART J - COMMON ERRORS AND SOLUTIONS
+------------------------------------------------------------
+
+1. "datasets folder not found"
+   - Run the notebook from ~/AI_Practicals.
+   - Check with: pwd
+   - It should show your AI_Practicals folder.
+   - Check with: ls
+
+2. "ecg.csv not found"
+   - Put the exact ecg.csv file inside datasets.
+
+3. "cbow_corpus.txt not found"
+   - Put the exact cbow_corpus.txt file inside datasets.
+
+4. "cifar10.npz not found"
+   - Put the exact cifar10.npz file inside datasets.
+
+5. "Pre-trained weights missing"
+   - Put the exact MobileNetV2 .h5 weights file inside models.
+   - The Practical 6 PDF says these weights are prepared separately; the notebook
+     itself reads the local file and does not download it.
+
+6. "No module named ..."
+   - Activate the environment:
+     source ~/AI_Practicals/.venv/bin/activate
+   - Install the missing package, for example:
+     python -m pip install scikit-learn
+
+7. Jupyter shows the wrong Python kernel
+   - Select Kernel -> Change Kernel -> Python (AI Practicals).
+   - If it is missing, activate .venv and run:
+     python -m ipykernel install --user --name ai-practicals --display-name "Python (AI Practicals)"
+
+8. TensorFlow installation fails
+   - Check: python3 --version
+   - Check that the Python version is supported by your TensorFlow release.
+   - Do not install packages globally with sudo pip.
+   - Install packages only after activating .venv.
+
+9. Notebook cannot find a file even though it exists
+   - Check the current directory inside a notebook:
+     import os
+     print(os.getcwd())
+   - The current directory should be ~/AI_Practicals.
+
+10. Training is slow
+    - CPU execution can take time.
+    - The Practical 6 PDF notes that CPU is acceptable for these practicals.
+    - Keep the laptop connected to power and avoid closing the notebook during training.
+
+------------------------------------------------------------
+FINAL CHECKLIST
+------------------------------------------------------------
+
+[ ] Ubuntu updated
+[ ] Python and venv packages installed
+[ ] AI_Practicals folder created
+[ ] Virtual environment created and activated
+[ ] Required Python libraries installed
+[ ] Jupyter kernel registered
+[ ] datasets folder created
+[ ] models folder created
+[ ] ecg.csv received and copied
+[ ] cbow_corpus.txt received and copied
+[ ] cifar10.npz received and copied
+[ ] MobileNetV2 weights received and copied
+[ ] Jupyter Notebook starts successfully
+[ ] Practical 4 runs from top to bottom
+[ ] Practical 5 runs from top to bottom
+[ ] Practical 6 runs from top to bottom
+
+END OF GUIDE
